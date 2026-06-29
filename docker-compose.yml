@@ -1,0 +1,20 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: bus_ticket_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bus_ticket
+    ports:
+      - "3306:3306"
+    command:
+      - --general-log=1
+      - --general-log-file=/var/lib/mysql/query.log
+      - --log-error-verbosity=3
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./src/db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+volumes:
+  mysql_data:
